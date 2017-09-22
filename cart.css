@@ -40,7 +40,7 @@ body{
    /*left:0px;*/
    /*margin 0px auto;*/
    bottom:0px;
-   height:40%;
+   height:60%;
    width:89%;
    padding: 10px;
    background:lightblue;
@@ -58,19 +58,79 @@ body{
 }
 
 .cart-items{
-    margin-left: 20px;
+    /*margin-left: 20px;*/
+    width: 70%;
 }
 
 table {
     border-collapse: collapse;
+    width: 100%;
 }
 
-/*.item-headers, .item-row{
-    display: flex;
+table, th, td {
+    border: 1px solid black;
+}
+
+/*th{
+    border-bottom: 1px solid #ddd;
+}*/
+
+td {
+    /*height: 50px;*/
+    vertical-align: top;
+    padding: 10px;
+}
+
+td p{
+    margin:0;
+}
+
+thead th:nth-child(1) {
+  width: 15%;
+}
+
+thead th:nth-child(2) {
+  width: 40%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 15%;
+}
+
+thead th:nth-child(5) {
+  width: 15%;
+}
+
+tfoot td{
+    text-align: right;
+}
+
+.maroon{
+    display: inline-block;
+    color:maroon;
+    font-weight: bold;
+}
+
+.bold{
+    font-weight: bold;
+    display: inline-block;
+}
+
+.call-to-action{
+    width:30%;
+     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
 
-.item-headers p, .item-row div, .item-row p{
-    width: 25%;
-}*/
+.keep-shopping{
+    width: 80%;
+    height: 200px;
+    padding: 10px;
+    border: 1px solid grey;
+    background-color: lightgrey;
+}
