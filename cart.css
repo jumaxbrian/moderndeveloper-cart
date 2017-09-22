@@ -7,9 +7,15 @@ html{
   box-sizing: border-box;
 }
 
+body{
+    display: flex;
+    justify-content: center;
+
+}
+
 .container{
     background-color: grey;
-    width: 400px;
+    width: 90%;
     padding: 10px;
     display: flex;
     justify-content: flex-start;
