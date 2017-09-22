@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="cart.css">
     <title>Shopping Cart</title>
+    <script src="https://use.fontawesome.com/2115f74026.js"></script>
+
 </head>
 
 <body>
@@ -146,7 +148,46 @@
 
     </div>
     <div class="cart">
-        phew
+        <p>My Cart</p>
+        <hr>
+        <div class="cart-items">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>&nbsp;</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Product 1</td>
+                        <td>
+                            <div class="item-qty">
+                                <button class="fa fa-minus-circle" aria-hidden="true"></button>
+                                <input type="text" name="item-qty-value" value="">
+                                <button class="fa fa-plus-circle" aria-hidden="true"></button>
+                            </div>
+                        </td>
+                        <td>
+                            <p>$5 <sup>69</sup></p>
+                        </td>
+                        <td>
+                            <button>Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
     </div>
     <!--container-->
 

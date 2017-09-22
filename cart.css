@@ -40,8 +40,18 @@ body{
    /*left:0px;*/
    /*margin 0px auto;*/
    bottom:0px;
-   height:30px;
+   height:40%;
    width:89%;
    padding: 10px;
    background:lightblue;
+}
+
+.item-headers, .item-row{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.item-headers p, .item-row div, .item-row p{
+    width: 25%;
 }
