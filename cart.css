@@ -46,7 +46,26 @@ body{
    background:lightblue;
 }
 
-.item-headers, .item-row{
+.cart-image img{
+    height: 200px;
+    width: 200px;
+}
+
+.cart-contents{
+     display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.cart-items{
+    margin-left: 20px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+/*.item-headers, .item-row{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -54,4 +73,4 @@ body{
 
 .item-headers p, .item-row div, .item-row p{
     width: 25%;
-}
+}*/
