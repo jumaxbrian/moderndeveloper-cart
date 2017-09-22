@@ -32,4 +32,16 @@ body{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    border-radius: 2px;
+}
+
+.cart {
+   position:fixed;
+   /*left:0px;*/
+   /*margin 0px auto;*/
+   bottom:0px;
+   height:30px;
+   width:89%;
+   padding: 10px;
+   background:lightblue;
 }
