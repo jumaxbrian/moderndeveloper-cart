@@ -143,3 +143,10 @@ tfoot td{
     border-radius: 5px;
 }
 
+.remove{
+    color: red;
+    background: transparent;
+    border: 1px solid red;
+    border-radius: 2px;
+    width: 80px;
+}
