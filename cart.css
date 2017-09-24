@@ -138,9 +138,12 @@ tfoot td{
     width: 80%;
     height: 200px;
     padding: 10px;
-    border: 1px solid grey;
-    background-color: lightgrey;
+    border: 1px solid #ddd;
+    background-color: rgba(220,220,220, 0.1);
     border-radius: 5px;
+    /*display: flex;
+    justify-content: center;
+    flex-wrap: wrap;*/
 }
 
 .remove{
@@ -156,4 +159,31 @@ tfoot td{
     border: 1px solid grey;
     border-radius: 2px;
     background: transparent;
+}
+
+.keep-shopping-btn{
+    width: 80%;
+    border-radius: 2px;
+    border: 1px solid goldenrod;
+    background-color: white;
+    color: goldenrod;
+}
+
+.proceed-btn{
+    width: 80%;
+    border-radius: 2px;
+    border: 1px solid blue;
+    background-color: white;
+    color: blue;
+}
+
+.line{
+    display: inline-block;
+    width: 40%;
+    vertical-align: middle;
+    border-color: #ddd;     
+}
+
+.or{
+    margin: 10px auto;  
 }
