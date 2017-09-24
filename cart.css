@@ -14,7 +14,7 @@ body{
 }
 
 .container{
-    background-color: grey;
+    /*background-color: grey;*/
     width: 90%;
     padding: 10px;
     display: flex;
@@ -25,7 +25,7 @@ body{
 
 .product{
     width: 250px;
-    height: 400px;
+    /*height: 400px;*/
     padding: 10px;
     margin: 5px;
     border: 1px solid lightgrey;
@@ -43,7 +43,7 @@ body{
    height:60%;
    width:89%;
    padding: 10px;
-   background:white;
+   background:rgba(250,250,250, 0.9);
 }
 
 .cart-image img{
@@ -121,6 +121,10 @@ tfoot td{
     display: inline-block;
 }
 
+.bold-block{
+    font-weight: bold;
+}
+
 .blue{
    color:darkblue;
     font-weight: bold;
@@ -152,6 +156,12 @@ tfoot td{
     border: 1px solid red;
     border-radius: 2px;
     width: 80px;
+    transition: background-color 2s, color 2s;
+}
+
+.remove:hover{
+    background-color: red;
+    color: white;
 }
 
 .drop-down select{
@@ -166,7 +176,13 @@ tfoot td{
     border-radius: 2px;
     border: 1px solid goldenrod;
     background-color: white;
+    transition: background-color 2s, color 2s;
     color: goldenrod;
+}
+
+.keep-shopping-btn:hover{
+    background-color: goldenrod;
+    color: white;
 }
 
 .proceed-btn{
@@ -175,6 +191,12 @@ tfoot td{
     border: 1px solid blue;
     background-color: white;
     color: blue;
+    transition: background-color 2s, color 2s;
+}
+
+.proceed-btn:hover{
+    background-color: blue;
+    color: white;
 }
 
 .line{
@@ -186,4 +208,19 @@ tfoot td{
 
 .or{
     margin: 10px auto;  
+}
+
+.add-to-cart-btn{
+    margin: 10px auto;
+    border-radius: 2px;
+    width: 80%; 
+    border: 1px solid darkgreen;
+    background-color: white;
+    color: darkgreen;
+    transition: background-color 2s, color 2s;
+}
+
+.add-to-cart-btn:hover{
+    background-color: darkgreen;
+    color: white;
 }
