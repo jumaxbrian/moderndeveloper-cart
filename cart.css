@@ -150,3 +150,10 @@ tfoot td{
     border-radius: 2px;
     width: 80px;
 }
+
+.drop-down select{
+    width: 80%;
+    border: 1px solid grey;
+    border-radius: 2px;
+    background: transparent;
+}
