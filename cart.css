@@ -43,7 +43,7 @@ body{
    height:60%;
    width:89%;
    padding: 10px;
-   background:lightblue;
+   background:white;
 }
 
 .cart-image img{
@@ -67,18 +67,19 @@ table {
     width: 100%;
 }
 
-table, th, td {
+/*table, th, td {
     border: 1px solid black;
-}
-
-/*th{
-    border-bottom: 1px solid #ddd;
 }*/
 
-td {
+th, td{
+    border-bottom: 1px solid #ddd;
+}
+
+td, th {
     /*height: 50px;*/
     vertical-align: top;
     padding: 10px;
+    text-align: left;
 }
 
 td p{
@@ -120,6 +121,12 @@ tfoot td{
     display: inline-block;
 }
 
+.blue{
+   color:darkblue;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
 .call-to-action{
     width:30%;
      display: flex;
@@ -133,4 +140,6 @@ tfoot td{
     padding: 10px;
     border: 1px solid grey;
     background-color: lightgrey;
+    border-radius: 5px;
 }
+
