@@ -54,8 +54,6 @@ var cart = {
             var tempStr = '<div class="image"><img src="http://via.placeholder.com/100x100" alt="product"></div > '
 
             var newCell = newRow.insertCell(0);
-            // var newText = document.createTextNode(tempStr);
-            // // newCell.appendChild(newText);
             newCell.innerHTML = tempStr;
 
             tempStr = '\
@@ -66,25 +64,6 @@ var cart = {
             // // Insert a cell in the row at index 0 status
             var newCell = newRow.insertCell(1);
             newCell.innerHTML = tempStr;;
-
-            // tempStr = '\
-            // <div class="drop-down">\
-            //     <select id="quantity">\
-            //         <option value="1">1</option>\
-            //         <option value="2">2</option>\
-            //         <option value="3">3</option>\
-            //         <option value="4">4</option>\
-            //         <option value="5">5</option>\
-            //         <option value="6">6</option>\
-            //         <option value="7">7</option>\
-            //         <option value="8">8</option>\
-            //         <option value="9">9</option>\
-            //         <option value="10">10</option>\
-            //         <option value="11">11</option>\
-            //         <option value="12">12</option>\
-            //     </select >\
-            // </div >\
-            // '
 
             // // Insert a cell in the row at index 0 status
             var newCell = newRow.insertCell(2);
@@ -110,16 +89,23 @@ var cart = {
             opt5.value = "5";
             opt5.text = "5";
 
-
+            sel.add(opt0);
             sel.add(opt1);
             sel.add(opt2);
             sel.add(opt3);
             sel.add(opt4);
             sel.add(opt5);
-            sel.add(opt0);
+
+            //just to prevent array bounds error on selected quantities.
+            sel.selectedIndex = cartItem.quantity;
+            // if (cartItem.quantity > 5) {
+            //     sel.selectedIndex = 6;
+            // } else {
+
+            // }
 
             sel.setAttribute("id", "quantity");
-            sel.onchange = (function (newRow, cartItemIndex) { return function (event) { quantityHandler(event, cartItemIndex); } })(newRow, i);
+            sel.onchange = (function (newRow, cartItemIndex) { return function (event) { quantityHandler(event, cartItemIndex, newRow); } })(newRow, i);
             selDiv.className = "drop-down";
 
             selDiv.appendChild(sel);
@@ -127,7 +113,8 @@ var cart = {
             // newCell.innerHTML = tempStr;
 
             tempStr = '\
-            <p class="maroon">$' + cartItem.price + '</p>\
+            <p id="unit-price" class="maroon"> Unit: $' + cartItem.price + '</p><br />\
+            <p id="subtotal" class="maroon">Subtotal: $' + cartItem.price * cartItem.quantity + '</p>\
             '
 
             // // Insert a cell in the row at index 0 status
@@ -152,9 +139,9 @@ var cart = {
     },
 
     updateDisplayPrices() {
-        let totalPriceNode = document.getElementById("total-price");
+        // let totalPriceNode = document.getElementById("total-price");
         let subTotalPriceNode = document.getElementById("subtotal-price");
-        totalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
+        // totalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
         subTotalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
     }
 
@@ -203,8 +190,14 @@ function showCartDiv() {
     cartDiv.style.visibility = "visible";
 }
 
+/*
+function to delete row node containing a given cart item. This works by simply deleting 
+the value from the cartItem property of the cart object. After that, the updateDisplay() is
+called which recreates the cart UI with the relevant updates. It doesn't delete any UI item.
+*/
 function deleteNode(node, cartItemIndex) {
     // node.innerHTML = "";
+    //delete the selected cart item
     if (cartItemIndex > -1) {
         cart.cartItems.splice(cartItemIndex, 1);
     }
@@ -213,15 +206,28 @@ function deleteNode(node, cartItemIndex) {
     cart.toggleCart();
 }
 
-function quantityHandler(event, cartItemIndex) {
+function quantityHandler(event, cartItemIndex, node) {
     let selectValue = parseInt(event.target.value);
 
     if (selectValue === 0) {
-        deleteNode(null, cartItemIndex);
+        deleteNode(node, cartItemIndex);
     } else {
-        cart.cartItems[cartItemIndex].quantity = selectValue;
-        cart.updateDisplay();
+        let cartItem = cart.cartItems[cartItemIndex];
+        cartItem.quantity = selectValue;
+
+        // cart.cartItems[cartItemIndex].quantity = selectValue;
+        console.log(node);
+        console.log(node.querySelector("p#subtotal"));
+        let total = cartItem.quantity * cartItem.price;
+        updateSubtotal(node, total);
     }
+}
+
+function updateSubtotal(rowNode, newPriceSubtotal) {
+    let subtotalNode = rowNode.querySelector("p#subtotal");
+    subtotalNode.innerHTML = "Subtotal: $ " + newPriceSubtotal;
+    cart.updateDisplayPrices();
+    // console.log('cartItemsArray', JSON.stringify(cart.cartItems))
 }
 
 keepShoppingBtn.addEventListener("click", function () {
