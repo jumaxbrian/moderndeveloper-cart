@@ -237,9 +237,24 @@ function updateSubtotal(rowNode, newPriceSubtotal) {
     // console.log('cartItemsArray', JSON.stringify(cart.cartItems))
 }
 
+function isBetterCoupon(nextDiscount) {
+    let ans = false;
+    if (cart.couponDiscount >= nextDiscount) {
+        let error = "A coupon " + cart.couponName + ", which is better than the current one, has already been applied."
+        alert(error);
+
+    } else {
+        ans = true;
+    }
+
+    return ans;
+}
+
+
 keepShoppingBtn.addEventListener("click", function () {
     hideCartDiv();
 });
+
 
 applyCouponBtn.addEventListener("click", function () {
     //get coupon
@@ -247,12 +262,6 @@ applyCouponBtn.addEventListener("click", function () {
         couponValue = couponNode.value.toUpperCase(),
         couponInfoNode = document.getElementById("coupon-info"),
         productTypeValue = document.getElementById("product-type").value;
-
-    if (cart.couponApplied == true) {
-        let error = "A coupon " + cart.couponName + " has already been applied."
-        alert(error);
-        return;
-    }
 
     if ((couponValue !== 'TOTALORDER') && (productTypeValue.length < 3)) {
         alert("Please enter a relevant product type.");
@@ -262,6 +271,11 @@ applyCouponBtn.addEventListener("click", function () {
         let totalPrice = cart.updateCalculation(),
             couponDiscount = 0.05 * totalPrice,
             couponInfo = "5% discount on total order is " + couponDiscount;
+
+        let isCheaper = isBetterCoupon(couponDiscount);
+        if (!isCheaper) {
+            return;
+        }
 
         cart.couponApplied = true;
         cart.couponDiscount = couponDiscount;
@@ -277,6 +291,11 @@ applyCouponBtn.addEventListener("click", function () {
                 let totalPrice = cart.updateCalculation(),
                     couponDiscount = 0.1 * cartItem.price,
                     couponInfo = "10% discount on a single item " + cartItem.name + " is " + couponDiscount;
+
+                let isCheaper = isBetterCoupon(couponDiscount);
+                if (!isCheaper) {
+                    return;
+                }
 
                 cart.couponApplied = true;
                 cart.couponDiscount = couponDiscount;
@@ -310,6 +329,11 @@ applyCouponBtn.addEventListener("click", function () {
             let totalPrice = cart.updateCalculation(),
                 couponDiscount = 0.15 * productTypeTotal,
                 couponInfo = "15% discount on all items " + productTypeValue + " is " + couponDiscount;
+
+            let isCheaper = isBetterCoupon(couponDiscount);
+            if (!isCheaper) {
+                return;
+            }
 
             cart.couponApplied = true;
             cart.couponDiscount = couponDiscount;
