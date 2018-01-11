@@ -6,8 +6,9 @@ alert('hello cart!');
 // var addToCartBtns = document.getElementsByClassName("add-to-cart-btn");
 var products = document.getElementsByClassName("description");
 const tbody = document.getElementsByTagName('tbody')[0];
-const keepShoppingBtn = document.getElementsByClassName("keep-shopping");
-
+const keepShoppingBtn = document.getElementById("keep-shopping");
+var cartDiv = document.getElementsByClassName("cart");
+cartDiv = cartDiv[0];
 
 
 var cart = {
@@ -25,7 +26,7 @@ var cart = {
     updateCalculation() {
         var total = 0;
         for (var i = 0; i < this.cartItems.length; i++) {
-            total += this.cartItems[i].price;
+            total += this.cartItems[i].price * this.cartItems[i].quantity;
         }
 
         return total;
@@ -36,16 +37,18 @@ var cart = {
         cart = cart[0];
 
         if (this.cartItems.length > 0) {
-            cart.style.visibility = 'visible';
+            // cart.style.visibility = 'visible';
+            showCartDiv();
         } else {
-            cart.style.visibility = 'hidden';
+            // cart.style.visibility = 'hidden';
+            hideCartDiv();
         }
     },
 
     updateDisplay() {
         tbody.innerHTML = "";
         for (let i = 0; i < cart.cartItems.length; i++) {
-            var newRow = tbody.insertRow(i),
+            let newRow = tbody.insertRow(i),
                 cartItem = cart.cartItems[i];
 
             var tempStr = '<div class="image"><img src="http://via.placeholder.com/100x100" alt="product"></div > '
@@ -64,28 +67,64 @@ var cart = {
             var newCell = newRow.insertCell(1);
             newCell.innerHTML = tempStr;;
 
-            tempStr = '\
-            <div class="drop-down">\
-                <select id="quantity">\
-                    <option value="1">1</option>\
-                    <option value="2">2</option>\
-                    <option value="3">3</option>\
-                    <option value="4">4</option>\
-                    <option value="5">5</option>\
-                    <option value="6">6</option>\
-                    <option value="7">7</option>\
-                    <option value="8">8</option>\
-                    <option value="9">9</option>\
-                    <option value="10">10</option>\
-                    <option value="11">11</option>\
-                    <option value="12">12</option>\
-                </select >\
-            </div >\
-            '
+            // tempStr = '\
+            // <div class="drop-down">\
+            //     <select id="quantity">\
+            //         <option value="1">1</option>\
+            //         <option value="2">2</option>\
+            //         <option value="3">3</option>\
+            //         <option value="4">4</option>\
+            //         <option value="5">5</option>\
+            //         <option value="6">6</option>\
+            //         <option value="7">7</option>\
+            //         <option value="8">8</option>\
+            //         <option value="9">9</option>\
+            //         <option value="10">10</option>\
+            //         <option value="11">11</option>\
+            //         <option value="12">12</option>\
+            //     </select >\
+            // </div >\
+            // '
 
             // // Insert a cell in the row at index 0 status
             var newCell = newRow.insertCell(2);
-            newCell.innerHTML = tempStr;
+            let sel = document.createElement("select"),
+                selDiv = document.createElement("div"),
+                opt0 = document.createElement("option"),
+                opt1 = document.createElement("option"),
+                opt2 = document.createElement("option"),
+                opt3 = document.createElement("option"),
+                opt4 = document.createElement("option"),
+                opt5 = document.createElement("option");
+
+            opt0.value = "0";
+            opt0.text = "0";
+            opt1.value = "1";
+            opt1.text = "1";
+            opt2.value = "2";
+            opt2.text = "2";
+            opt3.value = "3";
+            opt3.text = "3";
+            opt4.value = "4";
+            opt4.text = "4";
+            opt5.value = "5";
+            opt5.text = "5";
+
+
+            sel.add(opt1);
+            sel.add(opt2);
+            sel.add(opt3);
+            sel.add(opt4);
+            sel.add(opt5);
+            sel.add(opt0);
+
+            sel.setAttribute("id", "quantity");
+            sel.onchange = (function (newRow, cartItemIndex) { return function (event) { quantityHandler(event, cartItemIndex); } })(newRow, i);
+            selDiv.className = "drop-down";
+
+            selDiv.appendChild(sel);
+            newCell.appendChild(selDiv);
+            // newCell.innerHTML = tempStr;
 
             tempStr = '\
             <p class="maroon">$' + cartItem.price + '</p>\
@@ -99,16 +138,30 @@ var cart = {
 
             // // Insert a cell in the row at index 0 status
             var newCell = newRow.insertCell(4);
-            newCell.innerHTML = tempStr;
+            var btn = document.createElement('input');
+            btn.type = "button";
+            btn.className = "remove";
+            btn.value = "Remove";
+            btn.onclick = (function (newRow, cartItemIndex) { return function () { deleteNode(newRow, cartItemIndex); } })(newRow, i);
+            newCell.appendChild(btn);
 
         }
 
         //update calculation display
+        cart.updateDisplayPrices();
+    },
+
+    updateDisplayPrices() {
         let totalPriceNode = document.getElementById("total-price");
+        let subTotalPriceNode = document.getElementById("subtotal-price");
         totalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
+        subTotalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
     }
 
 }
+
+
+
 
 
 for (let i = 0; i < products.length; i++) {
@@ -135,17 +188,49 @@ function getCartItemFromNode(node) {
     let cartItem = {
         name: productName.innerText,
         price: parseFloat(productPrice.innerText.substring(1)),
+        quantity: 1,
         description: productDescription.innerText
     }
 
     return cartItem;
 }
 
+function hideCartDiv() {
+    cartDiv.style.visibility = "hidden";
+}
 
+function showCartDiv() {
+    cartDiv.style.visibility = "visible";
+}
 
-// cart.addCartItem({ a: 1, b: 2 });
-// cart.addCartItem({ a: 4, b: 6 });
+function deleteNode(node, cartItemIndex) {
+    // node.innerHTML = "";
+    if (cartItemIndex > -1) {
+        cart.cartItems.splice(cartItemIndex, 1);
+    }
+    // delete cart.cartItems[cartItemIndex];
+    cart.updateDisplay();
+    cart.toggleCart();
+}
 
-cart.printItems();
+function quantityHandler(event, cartItemIndex) {
+    let selectValue = parseInt(event.target.value);
 
-console.log(cart.updateCalculation());
+    if (selectValue === 0) {
+        deleteNode(null, cartItemIndex);
+    } else {
+        cart.cartItems[cartItemIndex].quantity = selectValue;
+        cart.updateDisplay();
+    }
+}
+
+keepShoppingBtn.addEventListener("click", function () {
+    hideCartDiv();
+})
+
+// // cart.addCartItem({ a: 1, b: 2 });
+// // cart.addCartItem({ a: 4, b: 6 });
+
+// cart.printItems();
+
+// console.log(cart.updateCalculation());
