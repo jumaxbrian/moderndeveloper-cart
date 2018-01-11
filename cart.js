@@ -9,6 +9,7 @@ const tbody = document.getElementsByTagName('tbody')[0];
 const keepShoppingBtn = document.getElementById("keep-shopping");
 var cartDiv = document.getElementsByClassName("cart");
 cartDiv = cartDiv[0];
+const applyCouponBtn = document.getElementById("apply-coupon");
 
 
 var cart = {
@@ -135,14 +136,17 @@ var cart = {
         }
 
         //update calculation display
-        cart.updateDisplayPrices();
+        cart.updateDisplayPrices(null);
     },
 
-    updateDisplayPrices() {
-        // let totalPriceNode = document.getElementById("total-price");
+    updateDisplayPrices(newPrice) {
         let subTotalPriceNode = document.getElementById("subtotal-price");
-        // totalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
-        subTotalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
+
+        if (newPrice === null) {
+            subTotalPriceNode.innerHTML = '$ ' + cart.updateCalculation();
+        } else {
+            subTotalPriceNode.innerHTML = '$ ' + newPrice;
+        }
     }
 
 }
@@ -176,7 +180,10 @@ function getCartItemFromNode(node) {
         name: productName.innerText,
         price: parseFloat(productPrice.innerText.substring(1)),
         quantity: 1,
-        description: productDescription.innerText
+        description: productDescription.innerText,
+        couponApplied: false,
+        couponName: "",
+        couponDiscount: 0
     }
 
     return cartItem;
@@ -226,17 +233,92 @@ function quantityHandler(event, cartItemIndex, node) {
 function updateSubtotal(rowNode, newPriceSubtotal) {
     let subtotalNode = rowNode.querySelector("p#subtotal");
     subtotalNode.innerHTML = "Subtotal: $ " + newPriceSubtotal;
-    cart.updateDisplayPrices();
+    cart.updateDisplayPrices(null);
     // console.log('cartItemsArray', JSON.stringify(cart.cartItems))
 }
 
 keepShoppingBtn.addEventListener("click", function () {
     hideCartDiv();
+});
+
+applyCouponBtn.addEventListener("click", function () {
+    //get coupon
+    let couponNode = document.getElementById("coupon"),
+        couponValue = couponNode.value.toUpperCase(),
+        couponInfoNode = document.getElementById("coupon-info"),
+        productTypeValue = document.getElementById("product-type").value;
+
+    if (cart.couponApplied == true) {
+        let error = "A coupon " + cart.couponName + " has already been applied."
+        alert(error);
+        return;
+    }
+
+    if ((couponValue !== 'TOTALORDER') && (productTypeValue.length < 3)) {
+        alert("Please enter a relevant product type.");
+    }
+
+    if (couponValue === 'TOTALORDER') {
+        let totalPrice = cart.updateCalculation(),
+            couponDiscount = 0.05 * totalPrice,
+            couponInfo = "5% discount on total order is " + couponDiscount;
+
+        cart.couponApplied = true;
+        cart.couponDiscount = couponDiscount;
+        cart.couponName = 'TOTALORDER';
+        cart.updateDisplayPrices(totalPrice - couponDiscount);
+
+        couponInfoNode.innerHTML = couponInfo;
+
+    } else if (couponValue === 'ONEITEM') {
+        for (let i = 0; i < cart.cartItems.length; i++) {
+            let cartItem = cart.cartItems[i];
+            if (cartItem.name.toUpperCase() === productTypeValue.toUpperCase()) {
+                let totalPrice = cart.updateCalculation(),
+                    couponDiscount = 0.1 * cartItem.price,
+                    couponInfo = "10% discount on a single item " + cartItem.name + " is " + couponDiscount;
+
+                cart.couponApplied = true;
+                cart.couponDiscount = couponDiscount;
+                cart.couponName = 'ONEITEM';
+                cart.updateDisplayPrices(totalPrice - couponDiscount);
+
+                couponInfoNode.innerHTML = couponInfo;
+
+                break;
+            } else {
+                alert("There is no product type " + productTypeValue + " in your cart items.")
+            }
+        }
+
+    } else if (couponValue === 'ALLITEMS') {
+        let productTypeTotal = 0;
+
+        for (let i = 0; i < cart.cartItems.length; i++) {
+            let cartItem = cart.cartItems[i];
+
+            if (cartItem.name.toUpperCase() === productTypeValue.toUpperCase()) {
+                productTypeTotal += cartItem.price * cartItem.quantity;
+
+            } else {
+                alert("There is no product type " + productTypeValue + " in your cart items.")
+            }
+        }
+
+
+        if (productTypeTotal > 0) {
+            let totalPrice = cart.updateCalculation(),
+                couponDiscount = 0.15 * productTypeTotal,
+                couponInfo = "15% discount on all items " + productTypeValue + " is " + couponDiscount;
+
+            cart.couponApplied = true;
+            cart.couponDiscount = couponDiscount;
+            cart.couponName = 'ALLITEMS';
+            cart.updateDisplayPrices(totalPrice - couponDiscount);
+
+            couponInfoNode.innerHTML = couponInfo;
+        }
+
+    }
+
 })
-
-// // cart.addCartItem({ a: 1, b: 2 });
-// // cart.addCartItem({ a: 4, b: 6 });
-
-// cart.printItems();
-
-// console.log(cart.updateCalculation());

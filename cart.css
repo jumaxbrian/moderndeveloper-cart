@@ -108,9 +108,9 @@ thead th:nth-child(5) {
   width: 15%;
 }
 
-tfoot td{
-    text-align: right;
-}
+/* tfoot td{
+     text-align: right;
+} */
 
 .maroon{
     display: inline-block;
