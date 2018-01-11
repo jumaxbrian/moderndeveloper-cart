@@ -1,4 +1,4 @@
-alert('hello cart!');
+// alert('hello cart!');
 // var cart = document.getElementsByClassName("cart");
 // cart = cart[0];
 // cart.style.visibility = 'hidden';
@@ -10,6 +10,7 @@ const keepShoppingBtn = document.getElementById("keep-shopping");
 var cartDiv = document.getElementsByClassName("cart");
 cartDiv = cartDiv[0];
 const applyCouponBtn = document.getElementById("apply-coupon");
+const toggleCartImg = document.getElementById("toggle-cart-img");
 
 
 var cart = {
@@ -197,6 +198,14 @@ function showCartDiv() {
     cartDiv.style.visibility = "visible";
 }
 
+function toggleCart() {
+    if (cartDiv.style.visibility == "hidden") {
+        showCartDiv();
+    } else {
+        hideCartDiv();
+    }
+}
+
 /*
 function to delete row node containing a given cart item. This works by simply deleting 
 the value from the cartItem property of the cart object. After that, the updateDisplay() is
@@ -254,6 +263,10 @@ function isBetterCoupon(nextDiscount) {
 keepShoppingBtn.addEventListener("click", function () {
     hideCartDiv();
 });
+
+toggleCartImg.addEventListener("click", function () {
+    toggleCart();
+})
 
 
 applyCouponBtn.addEventListener("click", function () {
