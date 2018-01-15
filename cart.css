@@ -140,6 +140,13 @@ thead th:nth-child(5) {
     display: inline-block;
 }
 
+.bold-product-type{
+    font-weight: bold;
+    display: inline-block;
+    font-size: 0.9rem;
+    color: brown;
+}
+
 .bold-block{
     font-weight: bold;
 }
@@ -242,4 +249,12 @@ thead th:nth-child(5) {
 .add-to-cart-btn:hover{
     background-color: darkgreen;
     color: white;
+}
+
+.product-type{
+    color: brown;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
 }
